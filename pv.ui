@@ -22,20 +22,17 @@
       </property>
      </widget>
     </item>
-    <item row="1" column="2">
+    <item row="1" column="3">
      <widget class="QPushButton" name="negPushButton">
       <property name="text">
        <string>Negative</string>
       </property>
      </widget>
     </item>
-    <item row="0" column="1" colspan="2">
-     <widget class="QFrame" name="frame">
-      <property name="frameShape">
-       <enum>QFrame::StyledPanel</enum>
-      </property>
-      <property name="frameShadow">
-       <enum>QFrame::Raised</enum>
+    <item row="0" column="1" colspan="3">
+     <widget class="QLabel" name="picLabel">
+      <property name="text">
+       <string/>
       </property>
      </widget>
     </item>
@@ -47,7 +44,7 @@
      <x>0</x>
      <y>0</y>
      <width>800</width>
-     <height>26</height>
+     <height>21</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">
@@ -55,6 +52,7 @@
      <string>File</string>
     </property>
     <addaction name="actionSetup"/>
+    <addaction name="actionJudge"/>
    </widget>
    <widget class="QMenu" name="menuHelp">
     <property name="title">
@@ -74,6 +72,11 @@
   <action name="actionAbout">
    <property name="text">
     <string>About</string>
+   </property>
+  </action>
+  <action name="actionJudge">
+   <property name="text">
+    <string>Judge</string>
    </property>
   </action>
  </widget>
