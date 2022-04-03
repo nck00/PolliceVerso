@@ -35,8 +35,8 @@ class PolliceVerso(QMainWindow):
         """
         folderPath = QFileDialog.getExistingDirectory(self, "Select Folder")
         suffixes = (".jpg", ".gif", ".png")
-        neg2do = "txt"
-        pos2do = "txt"
+        self.neg2do = "txt"
+        self.pos2do = "txt"
         recursive = False
         if folderPath and recursive is not None:
             # TODO: Add dialog if listOfPics exists to ask if to extend or to replace
@@ -93,11 +93,23 @@ class PolliceVerso(QMainWindow):
 
     def finish(self):
         """
-        Get's called after all images where judged
+        Get's called after all images were judged
         """
         for button in (self.posPushButton, self.negPushButton):
             button.setEnabled(False)
-        pass
+        for pics in ((self.neg2do, self.negPics), (self.pos2do, self.posPics)):
+            if pics[0] == "txt":
+                self.list2txt(pics[1])
+
+    def list2txt(self, listOfJudgedPics: list):
+        """Writes the paths of all judged pics (neg/pos) into a .txt file"""
+        if listOfJudgedPics == self.negPics:
+            fileName = "false.txt"
+        else:
+            fileName = "true.txt"
+        with open(fileName, "w") as file:
+            file.write("\n".join(listOfJudgedPics))
+    
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)
