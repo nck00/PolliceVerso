@@ -14,10 +14,12 @@ class PolliceVerso(QMainWindow):
         self.posPics = []
         self.negPics = []
         self.listOfPics = []
+        self.lastPic = ""
 
     def initUi(self) -> None:
         self.actionSetup.triggered.connect(self.on_ActionSetup_triggered)
         self.actionJudge.triggered.connect(self.on_ActionJudge_triggered)
+        self.actionUndo.triggered.connect(self.on_ActionUndo_triggered)
         self.actionAbout.triggered.connect(self.on_ActionAbout_triggered)
         self.statusbar.showMessage("File -> Setup to begin.")
         self.show()
@@ -66,6 +68,19 @@ class PolliceVerso(QMainWindow):
         return listOfPics
 
     @pyqtSlot()
+    def on_ActionUndo_triggered(self):
+        """Undoes the last judgment and adds the pic into the listOfPics again.
+        """
+        if self.negPics and self.lastPic == self.negPics[-1]:
+            pic = self.negPics.pop()
+        elif self.posPics and self.lastPic == self.posPics[-1]:
+            pic = self.posPics.pop()
+        else: # None yet selected (lastPic == "")
+            return 
+        self.listOfPics.insert(1, pic)
+        self.lastPic == ""
+
+    @pyqtSlot()
     def on_ActionAbout_triggered(self):
         about = QDialog(self)
         about.setWindowTitle("About Pollice Verso")
@@ -75,12 +90,14 @@ class PolliceVerso(QMainWindow):
     def on_posPushButton_clicked(self):
         pic = self.listOfPics.pop(0)
         self.posPics.append(pic)
+        self.lastPic = pic
         self.updatePic(0)
 
     @pyqtSlot()
     def on_negPushButton_clicked(self):
         pic = self.listOfPics.pop(0)
         self.negPics.append(pic)
+        self.lastPic = pic
         self.updatePic(0)
 
     def updatePic(self, picIndex = 0):
@@ -88,7 +105,7 @@ class PolliceVerso(QMainWindow):
         try:
             currentPic = self.listOfPics[picIndex]
             self.picLabel.setPixmap(QPixmap(currentPic).scaledToHeight(self.picLabel.size().height()))
-        except IndexError: # no more pics!
+        except IndexError: # no more pics.
             self.finish()
 
     def finish(self):
@@ -99,9 +116,9 @@ class PolliceVerso(QMainWindow):
             button.setEnabled(False)
         for pics in ((self.neg2do, self.negPics), (self.pos2do, self.posPics)):
             if pics[0] == "txt":
-                self.list2txt(pics[1])
+                self.CreateTxtFileFromList(pics[1])
 
-    def list2txt(self, listOfJudgedPics: list):
+    def CreateTxtFileFromList(self, listOfJudgedPics: list):
         """Writes the paths of all judged pics (neg/pos) into a .txt file"""
         if listOfJudgedPics == self.negPics:
             fileName = "false.txt"
