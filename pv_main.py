@@ -11,8 +11,8 @@ class PolliceVerso(QMainWindow):
         uic.loadUi("pv.ui", self)
         self.initUi()
         # to be filled by the user
-        self.posImages = []
-        self.negImages = []
+        self.posPics = []
+        self.negPics = []
         self.listOfPics = []
 
     def initUi(self) -> None:
@@ -47,10 +47,7 @@ class PolliceVerso(QMainWindow):
         if not self.listOfPics:
             self.statusbar.showMessage("File -> Setup to begin!")
             return
-        i = 0
-        currentPic = self.listOfPics[i]
-        self.picLabel.setPixmap(QPixmap(currentPic).scaledToHeight(self.picLabel.size().height()))
-        
+        self.updatePic(0)
 
     def getListOfPics(self, folderPath: str, recursive: bool, suffixes: list) -> list:
         """
@@ -76,11 +73,31 @@ class PolliceVerso(QMainWindow):
 
     @pyqtSlot()
     def on_posPushButton_clicked(self):
-        print("positive")
+        pic = self.listOfPics.pop(0)
+        self.posPics.append(pic)
+        self.updatePic(0)
 
     @pyqtSlot()
     def on_negPushButton_clicked(self):
-        print("negative")
+        pic = self.listOfPics.pop(0)
+        self.negPics.append(pic)
+        self.updatePic(0)
+
+    def updatePic(self, picIndex = 0):
+        """Changes to the next pic to judge for the user."""
+        try:
+            currentPic = self.listOfPics[picIndex]
+            self.picLabel.setPixmap(QPixmap(currentPic).scaledToHeight(self.picLabel.size().height()))
+        except IndexError: # no more pics!
+            self.finish()
+
+    def finish(self):
+        """
+        Get's called after all images where judged
+        """
+        for button in (self.posPushButton, self.negPushButton):
+            button.setEnabled(False)
+        pass
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)
