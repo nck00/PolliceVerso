@@ -49,6 +49,8 @@ class PolliceVerso(QMainWindow):
         if not self.listOfPics:
             self.statusbar.showMessage("File -> Setup to begin!")
             return
+        for button in (self.posPushButton, self.negPushButton):
+            button.setEnabled(True)
         self.updatePic(0)
 
     def getListOfPics(self, folderPath: str, recursive: bool, suffixes: list) -> list:
