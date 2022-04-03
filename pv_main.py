@@ -80,7 +80,7 @@ class PolliceVerso(QMainWindow):
         else: # None yet selected (lastPic == "")
             return 
         self.listOfPics.insert(1, pic)
-        self.lastPic == ""
+        self.lastPic = ""
 
     @pyqtSlot()
     def on_ActionAbout_triggered(self):
