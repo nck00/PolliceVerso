@@ -86,6 +86,11 @@ class PolliceVerso(QMainWindow):
     def on_ActionAbout_triggered(self):
         about = QDialog(self)
         about.setWindowTitle("About Pollice Verso")
+        aboutLayout = QVBoxLayout()
+        aboutLabel = QLabel(about)
+        aboutLabel.setText("Pollice Verso is an easy way to sort pictures.")
+        aboutLayout.addWidget(aboutLabel)
+        about.setLayout(aboutLayout)
         about.exec()
 
     @pyqtSlot()
