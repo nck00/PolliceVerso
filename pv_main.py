@@ -36,7 +36,7 @@ class PolliceVerso(QMainWindow):
         TODO: Add suffix, recursive and judgement Dialogs
         """
         folderPath = QFileDialog.getExistingDirectory(self, "Select Folder")
-        suffixes = (".jpg", ".gif", ".png")
+        suffixes = (".jpg", ".gif", ".png", ".webp")
         self.neg2do = "txt"
         self.pos2do = "txt"
         recursive = False
@@ -112,6 +112,7 @@ class PolliceVerso(QMainWindow):
         try:
             currentPic = self.listOfPics[picIndex]
             self.picLabel.setPixmap(QPixmap(currentPic).scaledToHeight(self.picLabel.size().height()))
+            self.statusbar.showMessage(f"{currentPic}")
         except IndexError: # no more pics.
             self.finish()
 
@@ -133,7 +134,6 @@ class PolliceVerso(QMainWindow):
             fileName = "true.txt"
         with open(fileName, "w") as file:
             file.write("\n".join(listOfJudgedPics))
-    
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)
