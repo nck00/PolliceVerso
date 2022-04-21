@@ -39,10 +39,21 @@ class PolliceVerso(QMainWindow):
         suffixes = (".jpg", ".gif", ".png", ".webp")
         self.neg2do = "txt"
         self.pos2do = "txt"
-        recursive = False
+        recursive = self.askRecursive()
         if folderPath and recursive is not None:
             # TODO: Add dialog if listOfPics exists to ask if to extend or to replace
             self.listOfPics = self.getListOfPics(folderPath, recursive, suffixes)           
+
+    def askRecursive(self):
+        recursiveQuestion = QMessageBox()
+        recursiveQuestion.setWindowTitle("Recursive?")
+        recursiveQuestion.setText("Scan directories recursively?")
+        recursiveQuestion.setStandardButtons(QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.No)
+        answer = recursiveQuestion.exec()
+        if answer == QMessageBox.StandardButton.Yes:
+            return True
+        elif answer == QMessageBox.StandardButton.No:
+            return False
 
     @pyqtSlot()
     def on_ActionJudge_triggered(self):
@@ -59,10 +70,13 @@ class PolliceVerso(QMainWindow):
         (and subfolder if recursive is True)
         """
         listOfPics = []
-        with os.scandir(folderPath) as path:
-            for entry in path:
-                if entry.is_file() and os.path.splitext(entry)[1] in suffixes:
-                    listOfPics.append(os.path.normpath(entry.path))
+        if recursive:
+            listOfPics = [os.path.normpath(os.path.join(dp, f)) for dp, dn, files in os.walk(folderPath) for f in files if os.path.splitext(f)[1].lower() in suffixes]
+        else:
+            with os.scandir(folderPath) as path:
+                for entry in path:
+                    if entry.is_file() and os.path.splitext(entry)[1].lower() in suffixes:
+                        listOfPics.append(os.path.normpath(entry.path))
         if listOfPics: # atleast one image
             self.statusbar.showMessage(f"{len(listOfPics)} Pictures found in {folderPath}. File -> Judge to proceed.")
         else:
