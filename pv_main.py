@@ -37,12 +37,25 @@ class PolliceVerso(QMainWindow):
         """
         folderPath = QFileDialog.getExistingDirectory(self, "Select Folder")
         suffixes = (".jpg", ".gif", ".png", ".webp")
-        self.neg2do = "txt"
-        self.pos2do = "txt"
+        self.neg2do = self.askToDo("negatively")
+        self.pos2do = self.askToDo("positively")
         recursive = self.askRecursive()
         if folderPath and recursive is not None:
             # TODO: Add dialog if listOfPics exists to ask if to extend or to replace
             self.listOfPics = self.getListOfPics(folderPath, recursive, suffixes)           
+
+    def askToDo(self, choice: str) -> str:
+        toDoQuestion = QDialog()
+        toDoQuestion.setWindowTitle(f"{choice[:1].upper()}{choice[1:]}?")
+        toDoLayout = QVBoxLayout()
+        toDoComboBox = QComboBox(toDoQuestion)
+        toDoLabel = QLabel(toDoQuestion)
+        toDoLabel.setText(f"What should happen with {choice} evaluated images?")
+        toDoComboBox.addItems(("txt", "copy", "delete"))
+        toDoLayout.addWidget(toDoLabel)
+        toDoLayout.addWidget(toDoComboBox)
+        toDoQuestion.setLayout(toDoLayout)
+        toDo = toDoQuestion.exec()
 
     def askRecursive(self):
         recursiveQuestion = QMessageBox()
