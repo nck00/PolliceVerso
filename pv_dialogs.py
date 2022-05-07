@@ -7,3 +7,9 @@ class ToDoDialog(QDialog):
         uic.loadUi("pv_toDo.ui", self)
         self.setWindowTitle(f"What should happen with {choice} evaluated images?")
         self.show()
+
+class suffixesDialog(QDialog):
+    def __init__(self):
+        super().__init__()
+        uic.loadUi("pv_suffixes.ui", self)
+        self.show()

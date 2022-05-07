@@ -37,13 +37,18 @@ class PolliceVerso(QMainWindow):
         TODO: Add suffix, recursive and judgement Dialogs
         """
         folderPath = QFileDialog.getExistingDirectory(self, "Select Folder")
-        suffixes = (".jpg", ".gif", ".png", ".webp")
+        suffixes = self.askSuffixes()
         self.neg2do = self.askToDo("negative")
         self.pos2do = self.askToDo("positive")
         recursive = self.askRecursive()
         if folderPath and recursive is not None:
             # TODO: Add dialog if listOfPics exists to ask if to extend or to replace
             self.listOfPics = self.getListOfPics(folderPath, recursive, suffixes)
+
+    def askSuffixes(self) -> list:
+        suffixes = suffixesDialog()
+        suffixes.exec()
+        return (".jpg", ".gif", ".png", ".webp")
 
     def askToDo(self, choice: str) -> str:
         toDo = ToDoDialog(choice)
