@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>223</width>
+    <width>174</width>
     <height>202</height>
    </rect>
   </property>
@@ -96,6 +96,15 @@
    </item>
   </layout>
  </widget>
+ <tabstops>
+  <tabstop>bmpCheckBox</tabstop>
+  <tabstop>gifCheckBox</tabstop>
+  <tabstop>jpgCheckBox</tabstop>
+  <tabstop>jpegCheckBox</tabstop>
+  <tabstop>pngCheckBox</tabstop>
+  <tabstop>tiffCheckBox</tabstop>
+  <tabstop>webpCheckBox</tabstop>
+ </tabstops>
  <resources/>
  <connections>
   <connection>
@@ -105,12 +114,12 @@
    <slot>accept()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>248</x>
-     <y>254</y>
+     <x>164</x>
+     <y>192</y>
     </hint>
     <hint type="destinationlabel">
      <x>157</x>
-     <y>274</y>
+     <y>201</y>
     </hint>
    </hints>
   </connection>
@@ -121,12 +130,12 @@
    <slot>reject()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>316</x>
-     <y>260</y>
+     <x>164</x>
+     <y>192</y>
     </hint>
     <hint type="destinationlabel">
-     <x>286</x>
-     <y>274</y>
+     <x>173</x>
+     <y>201</y>
     </hint>
    </hints>
   </connection>

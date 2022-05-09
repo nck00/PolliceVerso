@@ -41,14 +41,28 @@ class PolliceVerso(QMainWindow):
         self.neg2do = self.askToDo("negative")
         self.pos2do = self.askToDo("positive")
         recursive = self.askRecursive()
-        if folderPath and recursive is not None:
+        if folderPath and suffixes and recursive is not None:
             # TODO: Add dialog if listOfPics exists to ask if to extend or to replace
             self.listOfPics = self.getListOfPics(folderPath, recursive, suffixes)
 
     def askSuffixes(self) -> list:
         suffixes = suffixesDialog()
-        suffixes.exec()
-        return (".jpg", ".gif", ".png", ".webp")
+        suffixesResult = suffixes.exec()
+        if suffixesResult:
+            return self.getSuffixes(suffixes)
+        else:
+            return([])
+
+    def getSuffixes(self, suffixResults) -> list:
+        suffixList = []
+        if suffixResults.bmpCheckBox.isChecked(): suffixList.append(".bmp")
+        if suffixResults.gifCheckBox.isChecked(): suffixList.append(".gif")
+        if suffixResults.jpgCheckBox.isChecked(): suffixList.append(".jpg")
+        if suffixResults.jpegCheckBox.isChecked(): suffixList.append(".jpeg")
+        if suffixResults.pngCheckBox.isChecked(): suffixList.append(".png")
+        if suffixResults.tiffCheckBox.isChecked(): suffixList.append(".tiff")
+        if suffixResults.webpCheckBox.isChecked(): suffixList.append(".webp")
+        return suffixList
 
     def askToDo(self, choice: str) -> str:
         toDo = ToDoDialog(choice)
